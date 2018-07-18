@@ -43,7 +43,7 @@ The `fastdy` branch contains codes including an emulator for the potential fast 
    * statistical model output (i.e., posterior parameter values)
 
 ./R/
-   * physical models in R
+   * models in R, as needed. No R versions of the main BRICK sea-level rise models, because they are too slow for large ensembles
 
 ## Motivation
 
