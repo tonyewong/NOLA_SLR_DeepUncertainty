@@ -45,6 +45,8 @@ filename.gamma <- "../output_model/BRICK_physical_fd-gamma_08May2017.nc"
 filename.uniform <- "../output_model/BRICK_physical_fd-uniform_08May2017.nc"
 
 ## GEV parameters, fit from tide gauge data
+## If you are running this for the first time, just comment both out and
+## you can fit some GEV distributions to the Grand Isle tide gauge data now
 #filename.gevstat <- '../output_calibration/BRICK_GEVsample-AnnMean_16Apr2017.nc'
 filename.gevmcmc <- '../output_calibration/BRICK_estimateGEV-AnnMean_12Apr2017.nc'
 

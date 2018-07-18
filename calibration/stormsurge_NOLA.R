@@ -36,7 +36,7 @@
 ##      some may consider this to be poor practice. If you want, you can run
 ##      several chains from multiple initial conditions. (Did this, looks fine
 ##      even with only 5000 iterations, using the default stepsizes and dispersed
-##      initial conditions. (TW, 3 Jan 2016))
+##      initial conditions. (TW, 3 Jan 2017))
 ##  2. run a longer MCMC for the GEV parameters
 ##  3. chop off a burn-in (first half of chain) and leave the rest of the chains
 ##      to draw parameters from.

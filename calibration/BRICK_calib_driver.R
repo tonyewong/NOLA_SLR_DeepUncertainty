@@ -54,12 +54,6 @@ source('../fortran/R/brick_te_F.R')     # TE (thermosteric expansion) model
 source('../fortran/R/simpleF.R')        # GIS (Greenland Ice Sheet) model
 source('../fortran/R/daisantoF.R')			# DAIS (Antarctic Ice Sheet) model
 
-## Source the R versions too, just in case
-source('../R/GSIC_magicc.R')					# the GSIC model
-source('../R/brick_te.R')							# TE (thermosteric expansion) model
-source('../R/simple.R')								# GIS (Greenland Ice Sheet) model
-source('../R/daisanto.R')							# DAIS (Antarctic Ice Sheet) model
-
 ## Source some useful functions for manipulating data
 source('../R/forcing_total.R')					# function to add up the total forcing
 source('../R/compute_indices.R')				# function to determine the model and
