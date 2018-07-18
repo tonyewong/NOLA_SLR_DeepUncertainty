@@ -87,6 +87,8 @@ filename.gevstat <- '../output_calibration/BRICK_estimateGEV-AnnMean_12Apr2017.n
 
 if(dais=='n'){
 	name='fd-none'
+  # this filename does not actually matter, because the no-fast dyanmics SLR scenarios are drawn
+  # in the Van Dantzig model from both the gamma and uniform priors experiments
 #	filename.DAIScalibration = "../output_calibration/DAIS_calibratedParameters_11Aug2016.nc"
 	filename.DAIScalibration = "../output_calibration/DAISfastdyn_calibratedParameters_gamma_29Jan2017.nc"
 }
