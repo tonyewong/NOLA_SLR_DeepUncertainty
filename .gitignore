@@ -9,6 +9,7 @@ lobj/
 *.dll
 .Rhistory
 *.RData
+*.Rout
 *.mod
 output/
 output_calibration/
@@ -16,3 +17,4 @@ output_model/
 *.o
 */obj
 *.zip
+*.eps
