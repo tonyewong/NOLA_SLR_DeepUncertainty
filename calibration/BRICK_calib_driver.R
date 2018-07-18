@@ -25,7 +25,8 @@
 ## along with BRICK.  If not, see <http://www.gnu.org/licenses/>.
 ##==============================================================================
 
-#setwd('~/robustslr_new/calibration')
+# set the working directory for your own machine
+setwd('~/codes/NOLA_SLR_DeepUncertainty/calibration')
 
 rm(list=ls())												# Clear all previous variables
 
@@ -53,12 +54,6 @@ source('../fortran/R/GSIC_magiccF.R')   # the GSIC model
 source('../fortran/R/brick_te_F.R')     # TE (thermosteric expansion) model
 source('../fortran/R/simpleF.R')        # GIS (Greenland Ice Sheet) model
 source('../fortran/R/daisantoF.R')			# DAIS (Antarctic Ice Sheet) model
-
-## Source the R versions too, just in case
-source('../R/GSIC_magicc.R')					# the GSIC model
-source('../R/brick_te.R')							# TE (thermosteric expansion) model
-source('../R/simple.R')								# GIS (Greenland Ice Sheet) model
-source('../R/daisanto.R')							# DAIS (Antarctic Ice Sheet) model
 
 ## Source some useful functions for manipulating data
 source('../R/forcing_total.R')					# function to add up the total forcing
@@ -121,7 +116,6 @@ luse.gsic     = TRUE    # glaciers and small ice caps contribution to SLR
 luse.te       = TRUE    # thermosteric expansion contribution to SLR
 luse.simple   = TRUE    # Greenland ice sheet model
 luse.dais     = FALSE    # Antarctic ice sheet model
-luse.mymodel  = FALSE   # Example of adding your own model component
 luse.brick = cbind(luse.doeclim, luse.gsic, luse.te, luse.simple, luse.dais)
 
 ##==============================================================================
@@ -200,7 +194,7 @@ rho.simple.fixed   = NULL
 
 ## Read an old rho.simple.fixed?
 if(TRUE){
-	rho.simple.fixed = as.numeric(read.csv('../output_calibration/rho_simple_fixed_01Nov2016.csv'))
+	rho.simple.fixed = as.numeric(read.csv('../output_calibration/rho_simple_fixed_07May2017.csv'))
 } else {
 	## If rho/sigma.simple.fixed = NULL, then will be calibrated
 	resid = brick.out$simple.out$sle.gis[midx.gis] - obs.gis[oidx.gis]
