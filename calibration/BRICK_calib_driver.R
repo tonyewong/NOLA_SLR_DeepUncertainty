@@ -390,8 +390,9 @@ for (i in 1:length(niter.test)){
 plot(niter.test,gr.stat)
 
 ## GR statistic gets and stays below 1.1 by iteration ...? (set this to n.burnin)
-##	Wong et al 2016 -- n.min = 2e5, but discard entire first half of chain
-n.burnin = 5e5
+## This probably occurs by iteration 2e5, but discard entire first half of chain
+## for good measure.
+n.burnin = 0.5*niter.mcmc
 n.sample = nrow(chain1)-n.burnin
 parameters1=chain1[(n.burnin+1):nrow(chain1),]
 parameters2=chain2[(n.burnin+1):nrow(chain1),]
@@ -401,9 +402,11 @@ parameters.posterior = rbind(parameters1,parameters2, parameters3, parameters4)
 n.parameters = ncol(parameters.posterior)
 
 ## Histograms
+if(FALSE) {
 par(mfrow=c(5,5))
 for (pp in 1:length(parnames)) {
 	hist(parameters.posterior[,pp], xlab=parnames[pp], main='')
+}
 }
 
 ## Write the calibrated parameters file (netCDF version)
