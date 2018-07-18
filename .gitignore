@@ -1,3 +1,4 @@
+*.pdf
 .ipynb_checkpoints/
 *.pbs.o*
 *.log
