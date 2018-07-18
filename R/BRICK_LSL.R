@@ -1,4 +1,6 @@
 # =======================================================================================
+# BRICK_LSL.R
+#
 # Local sea level mapping.
 # Will return a time series of local sea level for the given lat/lon point, with
 # same length as the slr_xxx input sea-level rise time series.
@@ -10,6 +12,8 @@
 #
 # Currently no support to output global map and an LSL time series for a specific
 # location (this routine must be called twice, once for each).
+#
+# Questions? Tony Wong (twong@psu.edu)
 # =======================================================================================
 #
 #   Requires (input variables):
