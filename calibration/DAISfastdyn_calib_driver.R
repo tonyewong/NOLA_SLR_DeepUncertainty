@@ -22,6 +22,9 @@
 ## Questions? Tony Wong <twong@psu.edu>
 ##==============================================================================
 
+# set the working directory for your own machine
+setwd('~/codes/NOLA_SLR_DeepUncertainty/calibration')
+
 rm(list =ls()) #Clear global environment
 
 ## Setup packages and libraries
