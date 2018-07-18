@@ -1,8 +1,10 @@
+.ipynb_checkpoints/
 *.pbs.o*
-*.DS_Store
-.Rapp.history
-lobj/
 *.log
+*.Rapp.history
+*.DS_Store
+lobj/
+*.Rout
 *.so
 *.dll
 .Rhistory
