@@ -5,5 +5,5 @@
 #PBS -m abe
 #PBS -M twong@psu.edu
 ###R --vanilla < /home/scrim/axw322/codes/NOLA_SLR_DeepUncertainty/calibration/BRICK_Sobol_driver_script.R > /home/scrim/axw322/codes/NOLA_SLR_DeepUncertainty/calibration/brick_sobol.log
-R --vanilla < /home/scrim/axw322/codes/NOLA_SLR_DeepUncertainty/calibration/BRICK_Sobol_driver_noAIS_script.R > /home/scrim/axw322/codes/NOLA_SLR_DeepUncertainty/calibration/brick_sobol_noAIS2.log
+R --vanilla < /home/scrim/axw322/codes/NOLA_SLR_DeepUncertainty/calibration/BRICK_Sobol_driver_noAIS_script.R > /home/scrim/axw322/codes/NOLA_SLR_DeepUncertainty/calibration/brick_sobol_noAIS.log
 ###R --vanilla < /home/scrim/axw322/codes/NOLA_SLR_DeepUncertainty/calibration/BRICK_Sobol_driver_noGEV_script.R > /home/scrim/axw322/codes/NOLA_SLR_DeepUncertainty/calibration/brick_sobol.log
