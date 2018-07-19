@@ -16,13 +16,53 @@ It contains the sub-models
 * GMSL (Rahmstorf 2007, global mean sea level emulator)
 * Van Dantzig flood risk assessment (Van Dantzig, 1956)
 
-### An important note:
+### An important note
 
 The codes contained in this repository are only for reproducing and expanding on the work done in [Wong and Keller (2017)](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1002/2017EF000607). If you want the latest and greatest BRICK codes, go check out the [main BRICK repository](https://github.com/scrim-network/BRICK) on Github.
 
-### For the impatient:
+### For the impatient
 
 If you only want to use the results from Wong and Keller (2017) to make your own localized projections of sea levels, then go have a look at the Jupyter notebook (in R) `LocalizedProjections.ipynb`.
+
+## Large output files
+
+These experiments produce a few gigabytes of model output, for model simulations and calibrated parameter sets, etc. So not all of the output files are available from this repository.
+
+If you would like to download them, I would encourage you to use `wget` (or something similar) within R. `scp` has a tendency to corrupt files during transfer. I include the file sizes below next to the command to fetch them from a SCRiM download server, so that you can check the size of the file you obtain to make sure they match. The repository of codes available from Data Commons is complete with all of these files as well.
+
+To knock all this downloading nonsense out with one fell swoop, run this from R:
+~~~~
+cd NOLA_SLR_DeepUncertainty/Useful
+R
+source('GrabOutputFiles.R')
+~~~~
+
+The whole downloading process might take about an hour on a standard laptop.
+
+The files and their sizes are:
+* in the `output_calibration` directory:
+  * BRICK-model_calibratedParameters_control_18Jul2018.nc (198M)
+  * BRICK_estimateGEV-AnnMean_12Apr2017.nc (12M)
+  * rho_simple_fixed_07May2017.csv (22B)
+  * BRICK_calibratedParameters_07May2017.nc (198M)
+  * DAISfastdyn_calibratedParameters_uniform_29Jan2017.nc (52M)
+  * DAISfastdyn_calibratedParameters_gamma_29Jan2017.nc (52M)
+  * BRICK_postcalibratedParameters_fd-uniform_08May2017.nc (2.0M)
+  * BRICK_postcalibratedParameters_fd-gamma_08May2017.nc (2.1M)
+  * BRICK_Sobol-1-tot_04Aug2017-Build-AIS-2065.txt (4.7M)
+  * BRICK_Sobol-1-tot_04Aug2017-Build-AIS-GEV-2065.txt (5.1K)
+  * BRICK_Sobol-1-tot_06Aug2017-Build-GEV-2065.txt (4.9K)
+  * BRICK_Sobol-2_04Aug2017-Build-AIS-GEV-2065.txt (60K)
+  * BRICK_Sobol-2_04Aug2017-Build-AIS-2065.txt (51K)
+  * BRICK_Sobol-2_06Aug2017-Build-GEV-2065.txt (54K)
+* in the `output_model` directory:
+  * BRICK_physical_fd-gamma_08May2017.nc (944M)
+  * BRICK_physical_fd-uniform_08May2017.nc (912M)
+  * BRICK_physical_allslr_08May2017.nc (241M)
+  * VanDantzig_fd-gamma_2065_08May2017.nc (3.6)
+  * VanDantzig_fd-uniform_2065_08May2017.nc (3.6)
+  * VanDantzig_fd-none_2065_08May2017.nc (3.6)
+
 
 ## Directory structure
 
