@@ -1,4 +1,6 @@
 ##==============================================================================
+## BRICK_Sobol_plotting.R
+##
 ## Sobol sensitvity analysis for drivers of flood risk.
 ## --> plotting routines
 ##
@@ -39,12 +41,14 @@
 ## along with BRICK.  If not, see <http://www.gnu.org/licenses/>.
 ##==============================================================================
 
+# set the working directory for your own machine
+setwd('~/codes/brick_projects/NOLA_SLR_DeepUncertainty/calibration')
+
 rm(list=ls())
 
 control <- FALSE
 noGEV <- FALSE
 noHR <- TRUE
-noRCP <- FALSE
 
 plotdir <- '~/Box\ Sync/Wong-Projects/BRICK_scenarios/figures/'
 
@@ -62,10 +66,6 @@ if(control) {
     n_params <- 39
     Sobol_file_1 <- "../output_calibration/BRICK_Sobol-1-tot_06Aug2017-Build-GEV-2065.txt"
     Sobol_file_2 <- "../output_calibration/BRICK_Sobol-2_06Aug2017-Build-GEV-2065.txt"
-} else if(noRCP) {
-    n_params <- 40
-    Sobol_file_1 <- "../output_calibration/BRICK_Sobol-1-tot_26Apr2017-Build-AIS-GEV-RCP85-2065.txt"
-    Sobol_file_2 <- "../output_calibration/BRICK_Sobol-2_26Apr2017-Build-AIS-GEV-RCP85-2065.txt"
 }
 
 ##==============================================================================
@@ -183,39 +183,6 @@ if(control) {
                   )
 
 # modify the names and symbols if we are plotting one of the SOM figures
-} else if(noRCP) {
-    name_list1 <- list('Temperature' = parnames.sobol[1:5]
-                   ,'Sea Level:\n   Glaciers & Ice Caps' = parnames.sobol[6:9]
-                   ,'Sea Level:\nThermal Expansion' = parnames.sobol[10:13]
-                   ,'Sea Level:\nGreenland Ice Sheet' = parnames.sobol[14:18]
-                   ,'Sea Level:\nAntarctic Ice Sheet' = parnames.sobol[19:33]
-                   ,'Sea Level:\nLand Water Storage' = parnames.sobol[34]
-                   ,'Land Subsidence' = parnames.sobol[36]
-                   ,'Storm Surge' = parnames.sobol[c(35,37:39)]
-                   #,'Emissions' = parnames.sobol[40]
-                   ,'Protection' = parnames.sobol[40]
-                   )
-
-    # add Parameter symbols to plot
-    name_symbols <- c('S', expression(kappa[D]), expression(alpha[D]),
-                  expression('T'[0]), expression('H'[0]), expression(beta[0]),
-                  expression('V'['0,GSIC']), 'n', expression('G'['s,0']),
-                  expression('a'['TE']), expression('b'['TE']),
-                  expression(1/tau['TE']), expression('V'['0,TE']),
-                  expression('a'['GIS']), expression('b'['GIS']),
-                  expression(alpha['GIS']), expression(beta['GIS']),
-                  expression('V'['0,GIS']), expression('a'['ANTO']),
-                  expression('b'['ANTO']), expression(gamma), expression(alpha['AIS']),
-                  expression(mu['AIS']), expression(nu), expression('P'[0]),
-                  expression(kappa['AIS']), expression('f'[0]),
-                  expression('h'[0]), 'c', expression('b'[0]), 'slope',
-                  expression(lambda), expression('T'['crit']), expression('S'['LWS']),
-                  expression('C'['surge']), 'subs'
-                  , expression(mu), expression(sigma), expression(xi)
-                  #, 'RCP'
-                  , 'build'
-                  )
-
 } else if(noGEV) {
     name_list1 <- list('Temperature' = parnames.sobol[1:5]
                    ,'Sea Level:\n   Glaciers & Ice Caps' = parnames.sobol[6:9]
@@ -319,10 +286,6 @@ s2_sig1.swap[,match('surge.factor',parnames.sobol)] <- s2_sig1[,match('subs.rate
 if(control) {
     plot.filename <- paste(plotdir,'sobol_spider_2065Build',sep='')
     #plot.horiz <- c(TRUE,FALSE,FALSE)
-    plot.horiz <- c(FALSE,FALSE,FALSE,TRUE)
-} else if(noRCP) {
-    plot.filename <- paste(plotdir,'sobol_spider_2065Build-RCP85',sep='')
-    #plot.horiz <- c(FALSE,FALSE,TRUE)
     plot.horiz <- c(FALSE,FALSE,FALSE,TRUE)
 } else if(noHR) {
     plot.filename <- paste(plotdir,'sobol_spider_2065Build-noHR',sep='')
