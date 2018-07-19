@@ -65,6 +65,9 @@
 ## along with BRICK.  If not, see <http://www.gnu.org/licenses/>.
 ##==============================================================================
 
+# set the working directory for your own machine
+setwd('~/codes/NOLA_SLR_DeepUncertainty/calibration')
+
 rm(list=ls())
 
 t.beg = proc.time()
@@ -83,15 +86,7 @@ l.dopaleo = FALSE                # skip the paleo AIS simulations?
 
 filename.rho_simple_fixed <- "../output_calibration/rho_simple_fixed_07May2017.csv"
 filename.BRICKcalibration <- "../output_calibration/BRICK_calibratedParameters_07May2017.nc"
-filename.gevstat <- '../output_calibration/BRICK_estimateGEV-AnnMean_12Apr2017.nc'
 
-if(dais=='n'){
-	name='fd-none'
-  # this filename does not actually matter, because the no-fast dyanmics SLR scenarios are drawn
-  # in the Van Dantzig model from both the gamma and uniform priors experiments
-#	filename.DAIScalibration = "../output_calibration/DAIS_calibratedParameters_11Aug2016.nc"
-	filename.DAIScalibration = "../output_calibration/DAISfastdyn_calibratedParameters_gamma_29Jan2017.nc"
-}
 if(dais=='u') {
 	name='fd-uniform'
 	filename.DAIScalibration = "../output_calibration/DAISfastdyn_calibratedParameters_uniform_29Jan2017.nc"

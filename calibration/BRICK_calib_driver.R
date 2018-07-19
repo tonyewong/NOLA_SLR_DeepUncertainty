@@ -418,7 +418,7 @@ for (i in 1:length(parnames)){lmax=max(lmax,nchar(parnames[i]))}
 
 ## Name the output file
 today=Sys.Date(); today=format(today,format="%d%b%Y")
-filename.parameters = paste('../output_calibration/BRICK-model_calibratedParameters_control_',today,'.nc',sep="")
+filename.parameters = paste('../output_calibration/BRICK_calibratedParameters_control_',today,'.nc',sep="")
 
 library(ncdf4)
 dim.parameters <- ncdim_def('n.parameters', '', 1:ncol(parameters.posterior), unlim=FALSE)

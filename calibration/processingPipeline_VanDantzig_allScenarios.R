@@ -32,6 +32,9 @@
 ## along with BRICK.  If not, see <http://www.gnu.org/licenses/>.
 ##==============================================================================
 
+# set the working directory for your own machine
+setwd('~/codes/NOLA_SLR_DeepUncertainty/calibration')
+
 rm(list=ls())
 
 ##==============================================================================
@@ -45,7 +48,7 @@ filename.gamma <- "../output_model/BRICK_physical_fd-gamma_08May2017.nc"
 filename.uniform <- "../output_model/BRICK_physical_fd-uniform_08May2017.nc"
 
 ## GEV parameters, fit from tide gauge data
-#filename.gevstat <- '../output_calibration/BRICK_GEVsample-AnnMean_16Apr2017.nc'
+filename.gevstat <- '../output_calibration/BRICK_GEVsample-AnnMean_08May2017.nc'
 filename.gevmcmc <- '../output_calibration/BRICK_estimateGEV-AnnMean_12Apr2017.nc'
 
 ## Surge level increase factors (USACE)

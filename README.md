@@ -21,21 +21,6 @@ It contains the sub-models
 
 These codes are only for reproducing and expanding on the work done in [Wong and Keller (2017)](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1002/2017EF000607). If you want the latest and greatest BRICK codes, go check out the [main BRICK repository](https://github.com/scrim-network/BRICK) on Github.
 
-## To reproduce Wong and Keller 2017...
-
-1. obtain codes
-1. install packages
-1. Make in the fortran directory
-  1. you might need to modify the fortran compiler in `fortran/Makefile`. You can do `which gfortran` to find the path to yours.
-  1. you might also need to create the `fortran/obj` directory if it was not included in the code ball you downloaded
-1. BRICK (except DAIS) calibration - the instrumental calibration
-  1. Check `BRICK_calib_driver.R` script is properly set up:
-    1. set the initial `setwd` in the `BRICK_calib_driver.R` script to your local machine
-    1. make sure all of the `luse.XXX` are TRUE except for `luse.DAIS`
-    1. `rho_simple_fixed_07May2017.csv` is the fixed value for `rho_simple` used in Wong and Keller 2017.
-    1. make sure the the DEoptim for the two parameters for the prior distribution on 1/tau (`invtau`) yield about 1.81 and 0.00275.
-    1. actual calibration began ~6:50, 4 cores, 1e6 iterations... 
-
 
 ## Directory structure
 
@@ -106,19 +91,54 @@ Alternatively, you can use a similar batch submission script to run this on a cl
 qsub calib_dais.pbs
 ~~~~
 
-6. Combine modern and paleo calibration parameters, and calibrate the joint set to sea level data using rejection sampling; make hindcasts and projections of sea level; project local sea level and assess flood risks for the control model configuration. Note: if you run your own calibrations, files names must be edited to point to the correct files. By default, they point to the file names as used in the Wong and Keller 2017 paper. To fully reproduce all of the experiments from that work, you must ... <span style="font-size:33pt;font-color:red">TODO</span> 
+If you are reproducing the results from scratch, then you will need to run the `DAISfastdyn_calib_driver.R` routine two times: once with the `fd.priors` parameter equal to `g` (gamma prior distributions), and once with `fd.priors = u` (uniform prior distributions). These denote the type of prior distribution used for the Antarctic ice sheet fast dynamics parameters.
+
+6. Combine modern and paleo calibration parameters, and calibrate the joint set to sea level data using rejection sampling; make hindcasts and projections of sea level; project local sea level for New Orleans, Louisiana (NOLA), to serve as input to assess flood risks in the next stage.
+
+Note: if you run your own calibrations, files names must be edited to point to the correct files. By default, they point to the file names as used in the Wong and Keller 2017 paper. 
+
+To fully reproduce all of the experiments from that work, you must run the `processingPipeline_BRICKscenarios.R` routine two times: once with `fd.priors = g` and once with `fd.priors = u`. The following file names will also need to be modified within the processing pipeline script if you are not using the standard results from Wong and Keller (2017), which are the defaults:
+  * `filename.rho_simple_fixed` - the CSV file containing the fixed autocorrelation for the Greenland ice sheet; output from `BRICK_calib_driver.R`
+  * `filename.BRICKcalibration` - the netCDF file output from `BRICK_calib_driver.R` containing the calibrated parameter estimates for the non-DAIS components of BRICK
+  * `filename.DAIScalibration` - the netCDF file output from `DAIS_calib_driver.R` containing the calibrated parameter estimates for the DAIS model (paleo calibration)
+  * `filename.gevstat` - calibrated estimates of stationary Generalized Extreme Value distribution parameters from the Grand Isle, Louisiana tide gauge station. As of this writing, there are only about 40 years of data from this site, so fitting a non-stationary GEV distribution is out of the question (see [Klufas et al. (2017)](https://arxiv.org/abs/1709.08776v1)).
+  * by default, `l.dopaleo = FALSE` because we never presented the paleoclimate AIS simulations in the 2017 paper. If you want those simulations, change this to `TRUE`, but be prepared for a long run time.
+  * if you want to modify this to assess flood hazard at other sites, change the `lat.fp` and `lon.fp` fingerprint latitude/longitude values in this script.
 ~~~~
 source('processingPipeline_BRICKscenarios.R')
 ~~~~
 
-7. Calibrate the GEV parameters and set up the Van Dantzig flood risk model.
+Again, here is an alternative submission script to run this processing pipeline, because it might take a while:
 ~~~~
+qsub postproc_brick.pbs
+~~~~
+Of course, you will need to modify some paths in that script.
+
+7. Calibrate the GEV parameters and set up the Van Dantzig flood risk model. At this point, if you are producing your own calibrated projections instead of using the Wong and Keller (2017) ones, you will need to modify the following within `processingPipeline_VanDantzig_allScenarios.R`:
+  * `filename.gamma` - the BRICK physical model output for the gamma prior distributions, from `processingPipeline_BRICKscenarios.R`
+  * `filename.uniform` - the BRICK physical model output for the uniform prior distributions, from `processingPipeline_BRICKscenarios.R`
+  * If you want to fit GEV distributions to the Grand Isle tide gauge data, then comment out the `filename.gevstat` and `filename.gevmcmc` lines. Otherwise, use the defaults which were fit for the Wong and Keller (2017) study.
+~~~~
+source('processingPipeline_VanDantzig_allScenarios.R')
 ~~~~
 
-
-9. Create plots and analysis, as seen in the GMDD description paper. Note: file names must be edited to point to the correct files, if you have run your own calibrations. Also note: the directory in which you save the plots must be changed to match somewhere on your own machine.
+Here is a submission script to run this on a cluster:
 ~~~~
-source('analysis_and_plots_BRICKexperiments.R')
+qsub postproc_vandantzig.pbs
+~~~~
+Of course, you will need to modify some paths in that script.
+
+8. Supplemental Sobol' sensitivity analyses
+
+<span style="font-weight:900;font-size=33pt;color=red">TODO</span>
+
+9. Supplemental Pensacola and Galveston tide gauge analysis, to asses the representation uncertainty associated with the data records.
+
+<span style="font-weight:900;font-size=33pt;color=red">TODO</span>
+
+10. Create plots and analysis, Wong and Keller (2017) study. Note: file names must be edited to point to the correct files, if you have run your own calibrations and analyses. Also note: the directory in which you save the plots must be changed to match somewhere on your own machine.
+~~~~
+source('analysis_and_plots_BRICKscenarios.R')
 ~~~~
 
 Note that in each of these scripts, some edits will be necessary. These will include pointing at the proper file names. The BRICK and DAIS calibration driver scripts produce calibrated parameter files with date-stamps in their names. You will need to make sure the processing pipeline script points at the current calibrated parameters files. The processing pipeline script, in turn, produces several netCDF output files from your fully calibrated BRICK parameters. These file names also include date-stamps. You will need to make sure the analysis and plotting script points at the current files. You will also need to modify the directory in which your plots will be saved.

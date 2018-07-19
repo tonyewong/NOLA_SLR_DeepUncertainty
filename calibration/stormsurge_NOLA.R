@@ -60,6 +60,8 @@ BRICK_estimateGEV_NOLA <- function(
   N=NULL
   ){
 
+library(ncdf4)
+
 # estimate first year storm surge GEV, using tide gauge data from Grand Isle.
 print('Reading tide gauge data...')
 
@@ -239,7 +241,6 @@ for (i in 1:ncol(parameters.posterior)){lmax=max(lmax,nchar(colnames(parameters.
 today=Sys.Date(); today=format(today,format="%d%b%Y")
 filename.gevstat = paste('../output_calibration/BRICK_estimateGEV',method.name,'_',today,'.nc',sep="")
 
-library(ncdf4)
 dim.parameters <- ncdim_def('n.parameters', '', 1:ncol(parameters.posterior), unlim=FALSE)
 dim.name <- ncdim_def('name.len', '', 1:lmax, unlim=FALSE)
 dim.ensemble <- ncdim_def('n.ensemble', 'ensemble member', 1:nrow(parameters.posterior), unlim=TRUE)
@@ -253,6 +254,7 @@ nc_close(outnc)
 ## Write shorter file, with only the number (N) for the given ensemble
 today=Sys.Date(); today=format(today,format="%d%b%Y")
 filename.gevshort = paste('../output_calibration/BRICK_GEVsample',method.name,'_',today,'.nc',sep="")
+
 gev.params <- parameters.posterior[sample(1:nrow(parameters.posterior), size=N, replace=FALSE) , ]
 
 dim.parameters <- ncdim_def('n.parameters', '', 1:ncol(gev.params), unlim=FALSE)
