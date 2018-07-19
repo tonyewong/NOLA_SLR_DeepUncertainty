@@ -57,9 +57,9 @@ These codes are only for reproducing and expanding on the work done in [Wong and
 git clone https://github.com/tonyewong/NOLA_SLR_DeepUncertainty.git
 ~~~~
 
-2. Create the dynamic libraries necessary to run the model in Fortran. You might need to modify the `Makefile` to use your preferred Fortran compiler. Further help can be found at `BRICK/fortran/README`.
+2. Create the dynamic libraries necessary to run the model in Fortran. You might need to modify the `Makefile` to use your preferred Fortran compiler. Further help can be found at `NOLA_SLR_DeepUncertainty/fortran/README`.
 ~~~~
-cd BRICK/fortran
+cd NOLA_SLR_DeepUncertainty/fortran
 mkdir obj
 make
 ~~~~
@@ -127,6 +127,9 @@ Here is a submission script to run this on a cluster:
 qsub postproc_vandantzig.pbs
 ~~~~
 Of course, you will need to modify some paths in that script.
+
+Note that the GEV parameters used in Wong and Keller (2017) are on the Van Dantzig output file ( **FILL IN HERE**). You can sample from the same one using the default file settings in this script.
+
 
 8. Supplemental Sobol' sensitivity analyses
 

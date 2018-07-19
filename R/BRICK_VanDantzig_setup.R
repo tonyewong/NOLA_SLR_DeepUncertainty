@@ -59,7 +59,7 @@
 #install.packages('zoo')
 library(extRemes)
 library(fExtremes)
-library(ismev)
+#library(ismev)
 library(zoo)
 
 source("../R/VD_NOLA.R")
@@ -96,75 +96,6 @@ colnames(I_table) = c("Surge level", "Associated cost")
 investment.fit <- lm(I_table[,2]~I_table[,1])
 intercept.h2i = investment.fit$coefficients[[1]]
 slope.h2i = investment.fit$coefficients[[2]]
-
-
-##
-## Put below here stuff that's scenario-specific
-##
-
-
-if(FALSE) {
-
-
-## Make sure sea_level has time as the first dimension (number of rows = number of years)
-dims = dim(sea_level)
-if(dims[1]!=length(time_frame)) {sea_level=t(sea_level)}
-n.ensemble = dims[2]
-
-## Create a matrix of sea-level data starting from the current year for each model simulation.
-## (but does not include subsidence, which is accounted for as uncertain parameter)
-local_sea_level = data.matrix(sea_level[match(currentyear, time_frame):match(endyear, time_frame), ])
-
-
-
-## Test simulation to get the names
-if(is.null(surge.rise)) {
-  vd.out = VD_NOLA_R(params=params.vd[1,], T=T, X=X,
-    local_sea_level=local_sea_level[,1], intercept.h2i=intercept.h2i,
-    slope.h2i=slope.h2i, ss.gev=ss.gev[1,], H0=H0)
-} else {
-  vd.out = VD_NOLA_R(params=params.vd[1,], T=T, X=X,
-    local_sea_level=local_sea_level[,1], intercept.h2i=intercept.h2i,
-    slope.h2i=slope.h2i, ss.gev=ss.gev[1,], surge.rise=surge.rise[,1], H0=H0)
-}
-
-
-vanDantzig.ensemble = vector("list", ncol(vd.out))
-names(vanDantzig.ensemble) = names(vd.out)
-for (i in 1:ncol(vd.out)) {
-  vanDantzig.ensemble[[i]] = mat.or.vec(nrow(vd.out), n.ensemble)
-}
-
-## Run the simulations
-
-print(paste('Starting the risk assessment simulations now...',sep=''))
-
-if(is.null(surge.rise)) {
-  pb <- txtProgressBar(min=0,max=n.ensemble,initial=0,style=3)
-  for (i in 1:n.ensemble) {
-    vd.out = VD_NOLA_R(params=params.vd[i,], T=T, X=X,
-      local_sea_level=local_sea_level[,i], intercept.h2i=intercept.h2i,
-      slope.h2i=slope.h2i, ss.gev=ss.gev[i,], H0=H0)
-    for (j in 1:ncol(vd.out)) {
-		  vanDantzig.ensemble[[j]][,i] = vd.out[,j]
-	  }
-    setTxtProgressBar(pb, i)
-  }
-} else {
-  pb <- txtProgressBar(min=0,max=n.ensemble,initial=0,style=3)
-  for (i in 1:n.ensemble) {
-    vd.out = VD_NOLA_R(params=params.vd[i,], T=T, X=X,
-      local_sea_level=local_sea_level[,i], intercept.h2i=intercept.h2i,
-      slope.h2i=slope.h2i, ss.gev=ss.gev[i,], surge.rise=surge.rise[,i], H0=H0)
-    for (j in 1:ncol(vd.out)) {
-		  vanDantzig.ensemble[[j]][,i] = vd.out[,j]
-	  }
-    setTxtProgressBar(pb, i)
-  }
-}
-close(pb)
-
-}
 
 ##==============================================================================
 ## End
