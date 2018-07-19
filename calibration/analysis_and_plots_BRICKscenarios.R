@@ -22,7 +22,7 @@
 ## along with BRICK.  If not, see <http://www.gnu.org/licenses/>.
 ##==============================================================================
 
-setwd('~/codes/BRICK/R')
+setwd('~/codes/brick_projects/NOLA_SLR_DeepUncertainty/R')
 
 rm(list=ls())
 

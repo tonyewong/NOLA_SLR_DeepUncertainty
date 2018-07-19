@@ -17,7 +17,7 @@
 ##==============================================================================
 
 #setwd('~/codes/BRICK/calibration')
-setwd('/home/scrim/axw322/codes/BRICK/calibration')
+setwd('/home/scrim/axw322/codes/NOLA_SLR_DeepUncertainty/calibration')
 
 rm(list=ls())
 

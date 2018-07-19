@@ -16,7 +16,7 @@
 ## Questions? Tony Wong (twong@psu.edu)
 ##==============================================================================
 
-setwd('~/codes/BRICK/calibration')
+setwd('~/codes/brick_projects/NOLA_SLR_DeepUncertainty/calibration')
 
 rm(list=ls())
 
