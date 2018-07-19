@@ -41,14 +41,13 @@ The whole downloading process might take about an hour on a standard laptop.
 
 The files and their sizes are:
 * in the `output_calibration` directory:
-  * BRICK-model_calibratedParameters_control_18Jul2018.nc (198M)
-  * BRICK_estimateGEV-AnnMean_12Apr2017.nc (12M)
   * rho_simple_fixed_07May2017.csv (22B)
   * BRICK_calibratedParameters_07May2017.nc (198M)
   * DAISfastdyn_calibratedParameters_uniform_29Jan2017.nc (52M)
   * DAISfastdyn_calibratedParameters_gamma_29Jan2017.nc (52M)
   * BRICK_postcalibratedParameters_fd-uniform_08May2017.nc (2.0M)
   * BRICK_postcalibratedParameters_fd-gamma_08May2017.nc (2.1M)
+  * BRICK_estimateGEV-AnnMean_12Apr2017.nc (12M)
   * BRICK_Sobol-1-tot_04Aug2017-Build-AIS-2065.txt (4.7M)
   * BRICK_Sobol-1-tot_04Aug2017-Build-AIS-GEV-2065.txt (5.1K)
   * BRICK_Sobol-1-tot_06Aug2017-Build-GEV-2065.txt (4.9K)
