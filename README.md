@@ -1,6 +1,5 @@
 # BRICK v0.2 ![alt text](https://github.com/scrim-network/BRICK/blob/master/brick_logo.png "This is a brick!")
 
-
 ## Synopsis
 
 BRICK (**B**uilding blocks for **R**elevant **I**ce and **C**limate **K**nowledge) is a modular semi-empirical modeling framework to simulate global temperature and sea-level rise. In the default model configuration, first, global mean surface temperature and ocean heat uptake are simulated by DOECLIM. Changes in global mean surface temperature drive changes in global mean sea level (GMSL). The contributions to GMSL from the Greenland and Antarctic ice sheets, thermal expansion, and glaciers and ice caps are simulated.
@@ -19,7 +18,7 @@ It contains the sub-models
 
 ### An important note:
 
-These codes are only for reproducing and expanding on the work done in [Wong and Keller (2017)](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1002/2017EF000607). If you want the latest and greatest BRICK codes, go check out the [main BRICK repository](https://github.com/scrim-network/BRICK) on Github.
+The codes contained in this repository are only for reproducing and expanding on the work done in [Wong and Keller (2017)](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1002/2017EF000607). If you want the latest and greatest BRICK codes, go check out the [main BRICK repository](https://github.com/scrim-network/BRICK) on Github.
 
 
 ## Directory structure
@@ -46,54 +45,53 @@ These codes are only for reproducing and expanding on the work done in [Wong and
 ./R/
    * models in R, as needed. No R versions of the main BRICK sea-level rise models, because they are too slow for large ensembles
 
+
 ## Workflow
 
-<span style="font-size:30pt;font-weight:900">TODO - edit this to match Wong and Keller<span>
+### To reproduce the work of Wong and Keller (2017)
 
-### To reproduce the work of Wong and Keller 2017
-
-1. Checkout the model codes. 
+**1.** Checkout the model codes. Run the following in a terminal shell, in whatever directory you would like the `NOLA_SLR_DeepUncertainty` code directory to be placed in.
 ~~~~
 git clone https://github.com/tonyewong/NOLA_SLR_DeepUncertainty.git
 ~~~~
 
-2. Create the dynamic libraries necessary to run the model in Fortran. You might need to modify the `Makefile` to use your preferred Fortran compiler. Further help can be found at `NOLA_SLR_DeepUncertainty/fortran/README`.
+**2.** Create the dynamic libraries necessary to run the model in Fortran. You might need to modify the `Makefile` to use your preferred Fortran compiler. Further help can be found at `NOLA_SLR_DeepUncertainty/fortran/README`.
 ~~~~
 cd NOLA_SLR_DeepUncertainty/fortran
 mkdir obj
 make
 ~~~~
 
-3. Open R and install the relevant R packages.
+**3.** Open R and install the relevant R packages.
 ~~~~
 R
 setwd('NOLA_SLR_DeepUncertainty/Useful')
 source('InstallPackages.R')
 ~~~~
 
-4. Calibrate the default BRICK model configuration (DOECLIM+SIMPLE+GSIC+TE) parameters using instrumental period data. This should not take longer than an hour or two on a modern multi-core computer.
+**4.** Calibrate the default BRICK model configuration (DOECLIM+SIMPLE+GSIC+TE) parameters using instrumental period data. This should not take longer than an hour or two on a modern multi-core computer.
 ~~~~
 source('BRICK_calib_driver.R')
 ~~~~
 
-Alternatively, you can submit this as a batch job to a cluster. The PBS script provided will require some modification for whatever machine you are using.
+Alternatively, you can submit this as a batch job to a cluster. The PBS script provided will require some modification for whatever machine you are using. To submit the job, run the following in a terminal shell.
 ~~~~
 qsub calib_brick.pbs
 ~~~~
 
-5. Calibrate the DAIS parameters using paleoclimate data. This will take about 12 hours with a modern laptop.
+**5.** Calibrate the DAIS parameters using paleoclimate data. This will take about 12 hours with a modern laptop.
 ~~~~
 source('DAISfastdyn_calib_driver.R')
 ~~~~
 
-Alternatively, you can use a similar batch submission script to run this on a cluster. That's probably preferably, if you care about not blowing out your laptop fan like a bad transmission. Note that this script will require modification, depending on the specifics of your machine.
+Alternatively, you can use a similar batch submission script to run this on a cluster. That's probably to be preferred, if you care about not blowing out your laptop fan like a bad transmission. Note that this script will require modification, depending on the specifics of your machine.
 ~~~~
 qsub calib_dais.pbs
 ~~~~
 
 If you are reproducing the results from scratch, then you will need to run the `DAISfastdyn_calib_driver.R` routine two times: once with the `fd.priors` parameter equal to `g` (gamma prior distributions), and once with `fd.priors = u` (uniform prior distributions). These denote the type of prior distribution used for the Antarctic ice sheet fast dynamics parameters.
 
-6. Combine modern and paleo calibration parameters, and calibrate the joint set to sea level data using rejection sampling; make hindcasts and projections of sea level; project local sea level for New Orleans, Louisiana (NOLA), to serve as input to assess flood risks in the next stage.
+**6.** Combine modern and paleo calibration parameters, and calibrate the joint set to sea level data using rejection sampling; make hindcasts and projections of sea level; project local sea level for New Orleans, Louisiana (NOLA), to serve as input to assess flood risks in the next stage.
 
 Note: if you run your own calibrations, files names must be edited to point to the correct files. By default, they point to the file names as used in the Wong and Keller 2017 paper. 
 
@@ -114,7 +112,7 @@ qsub postproc_brick.pbs
 ~~~~
 Of course, you will need to modify some paths in that script.
 
-7. Calibrate the GEV parameters and set up the Van Dantzig flood risk model. At this point, if you are producing your own calibrated projections instead of using the Wong and Keller (2017) ones, you will need to modify the following within `processingPipeline_VanDantzig_allScenarios.R`:
+**7.** Calibrate the GEV parameters and set up the Van Dantzig flood risk model. At this point, if you are producing your own calibrated projections instead of using the Wong and Keller (2017) ones, you will need to modify the following within `processingPipeline_VanDantzig_allScenarios.R`:
   * `filename.gamma` - the BRICK physical model output for the gamma prior distributions, from `processingPipeline_BRICKscenarios.R`
   * `filename.uniform` - the BRICK physical model output for the uniform prior distributions, from `processingPipeline_BRICKscenarios.R`
   * If you want to fit GEV distributions to the Grand Isle tide gauge data, then comment out the `filename.gevstat` and `filename.gevmcmc` lines. Otherwise, use the defaults which were fit for the Wong and Keller (2017) study.
@@ -128,27 +126,56 @@ qsub postproc_vandantzig.pbs
 ~~~~
 Of course, you will need to modify some paths in that script.
 
-Note that the GEV parameters used in Wong and Keller (2017) are on the Van Dantzig output file ( **FILL IN HERE**). You can sample from the same one using the default file settings in this script.
+Note that the GEV parameters used in Wong and Keller (2017) are on the Van Dantzig output file (`VanDantzig_fd-gamma_2065_08May2017.nc`). You can sample from the same one using the default file settings in this script. Also note that all three versions of the `VanDantzig_fd-XXX_2065_08May2017.nc` file use the same set of GEV parameters, so it does not matter which version you grab them from.
 
+**8.** To run the Sobol' sensitivity analysis from the main text, submit the `rsobol_run.pbs` script (in a terminal shell), which will run the R script `BRICK_Sobol_driver_script.R`. Note that these execute the Sobol' analysis in parallel, so you will certainly need to modify the number of cores used within each script (`ppn` in the pbs script and `N.core000` in the R script). The random seed is fixed, so as long as you run the same number of iterations, this should still converge.
 
-8. Supplemental Sobol' sensitivity analyses
+To run the two supplemental Sobol' analyses (excluding the GEV parameters and excluding the Antarctic ice sheet runoff line height parameters), run the submission scripts `rsobol_run_noGEV.pbs` and `rsobol_run_noAIS.pbs`, respectively. 
 
-<span style="font-weight:900;font-size=33pt;color=red">TODO</span>
+Be warned that each analysis will require about 24 hours using 16 cores on a modern cluster. Memory issues may arise when attempting to run with fewer cores/more iterations.
+~~~~
+qsub rsobol_run.pbs
+qsub rsobol_run_noGEV.pbs
+qsub rsobol_run_noAIS.pbs
+~~~~
 
-9. Supplemental Pensacola and Galveston tide gauge analysis, to asses the representation uncertainty associated with the data records.
+Once these finish running, you can plot each of their results individually using the following script. Note that you will need to modify the file names and paths within this script to match your output, if you are generating your own. Set the `control`, `noGEV` and `noHR` logicals to reflect which of the three Sobol' experiments you are running. For example, the following settings denote the Supplemental Figure S5, without the GEV parameters.
+~~~~
+control <- TRUE
+noGEV <- FALSE
+noHR <- FALSE
+~~~~
 
-<span style="font-weight:900;font-size=33pt;color=red">TODO</span>
+When you are ready, run the plotting script to get your radial convergence diagram, as well as some output to the R terminal displaying significant relationships among the parameters and signficiant sensitivity indices.
+~~~~
+source('BRICK_Sobol_plotting.R')
+~~~~
 
-10. Create plots and analysis, Wong and Keller (2017) study. Note: file names must be edited to point to the correct files, if you have run your own calibrations and analyses. Also note: the directory in which you save the plots must be changed to match somewhere on your own machine.
+**9.** Running the following R script with execute that supplemental Pensacola and Galveston tide gauge analysis, to assess the representation uncertainty associated with the data records.
+~~~~
+source('stormsurge_sensitivity_experiment_driver.R')
+~~~~
+
+This can be run through a submission script in a terminal, where again some modification will be required for your machine for the number of cores and directory paths.
+~~~~
+qsub data_sensitivity_run.pbs
+~~~~
+
+The Figures S6 and S7 from this analysis is generated by running the following script. Note that the directory where you would like to save your plots ought to be modified to fit your machine (`plotdir`), and if you are running your own calibrations, you should modify the calibration output file `filename.sensitivityexperiment` as well.
+~~~~
+source('stormsurge_sensitivity_experiment_analysis.R')
+~~~~
+
+**10.** Create plots and analysis, Wong and Keller (2017) study. Note: file names must be edited to point to the correct files, if you have run your own calibrations and analyses. Also note: the directory in which you save the plots must be changed to match somewhere on your own machine.
 ~~~~
 source('analysis_and_plots_BRICKscenarios.R')
 ~~~~
 
-Note that in each of these scripts, some edits will be necessary. These will include pointing at the proper file names. The BRICK and DAIS calibration driver scripts produce calibrated parameter files with date-stamps in their names. You will need to make sure the processing pipeline script points at the current calibrated parameters files. The processing pipeline script, in turn, produces several netCDF output files from your fully calibrated BRICK parameters. These file names also include date-stamps. You will need to make sure the analysis and plotting script points at the current files. You will also need to modify the directory in which your plots will be saved.
-
 ## Contributors
 
 Please enjoy the code and offer us any suggestions. It is our aim to make the model accessible and usable by all. We are always interested to hear about potential improvements to the model, both in the statistical calibration framework as well as the physical sub-models for climate and contributions to sea-level rise.
+
+Also, most definitely let me know if there are any important files missing! 
 
 Questions? Tony Wong (<anthony.e.wong@colorado.edu>)
 
