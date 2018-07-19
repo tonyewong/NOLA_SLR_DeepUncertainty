@@ -20,6 +20,9 @@ It contains the sub-models
 
 The codes contained in this repository are only for reproducing and expanding on the work done in [Wong and Keller (2017)](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1002/2017EF000607). If you want the latest and greatest BRICK codes, go check out the [main BRICK repository](https://github.com/scrim-network/BRICK) on Github.
 
+### For the impatient:
+
+If you only want to use the results from Wong and Keller (2017) to make your own localized projections of sea levels, then go have a look at the Jupyter notebook (in R) `LocalizedProjections.ipynb`.
 
 ## Directory structure
 
