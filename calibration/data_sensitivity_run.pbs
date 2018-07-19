@@ -4,4 +4,4 @@
 #PBS -j oe
 #PBS -m abe
 #PBS -M twong@psu.edu
-R --vanilla < /home/scrim/axw322/codes/BRICK/calibration/stormsurge_sensitivity_experiment_driver.R > /home/scrim/axw322/codes/BRICK/calibration/data_sensitivity.log
+R --vanilla < /home/scrim/axw322/codes/NOLA_SLR_DeepUncertainty/calibration/stormsurge_sensitivity_experiment_driver.R > /home/scrim/axw322/codes/NOLA_SLR_DeepUncertainty/calibration/data_sensitivity.log
